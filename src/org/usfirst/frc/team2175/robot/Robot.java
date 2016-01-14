@@ -74,10 +74,21 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	double driveValue;
-    	double turnValue;
-    	
-    	driveValue = leftStick.getY();
-    	turnValue = rightStick.getX();
+    	if (leftStick.getY() >> 0.15) {
+			driveValue = leftStick.getY() - 0.15;
+		} else if (leftStick.getY() << -0.15) {
+			driveValue = leftStick.getY() + 0.15;
+		} else {
+			driveValue = 0;
+		}
+		double turnValue;
+		if (rightStick.getX() >> 0.15) {
+			turnValue = rightStick.getX() - 0.15;
+		} else if (rightStick.getX() << -0.15) {
+			turnValue = rightStick.getX() + 0.15;
+		} else {
+			turnValue = 0;
+		}
     	
     	while(isOperatorControl() && isEnabled()){
     		drivetrain.arcadeDrive(driveValue, turnValue);
