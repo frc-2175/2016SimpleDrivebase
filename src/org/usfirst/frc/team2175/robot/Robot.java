@@ -73,7 +73,9 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        drivetrain.arcadeDrive(leftStick.getY(), rightStick.getX());
+    	while(isOperatorControl() && isEnabled()){
+    		drivetrain.arcadeDrive(leftStick.getY(), rightStick.getX());
+    	}
     }
     
     /**
