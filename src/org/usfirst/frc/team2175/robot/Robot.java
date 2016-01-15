@@ -23,6 +23,9 @@ public class Robot extends IterativeRobot {
     RobotDrive drivetrain;
 	Joystick leftStick;
 	Joystick rightStick;
+	
+	double moveScale = .6;
+	double turnScale = .6;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -74,6 +77,9 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	double driveValue;
+    	double turnScale = this.turnScale;
+    	double moveScale = this.moveScale;
+    	
     	
     	if(Math.abs(leftStick.getY()) < 0.1) {
     		driveValue = 0;
@@ -93,7 +99,7 @@ public class Robot extends IterativeRobot {
     	
     	
     	while(isOperatorControl() && isEnabled()){
-    		drivetrain.arcadeDrive(driveValue, turnValue);
+    		drivetrain.arcadeDrive(driveValue * moveScale, turnValue * turnScale);
     	}
     }
     
