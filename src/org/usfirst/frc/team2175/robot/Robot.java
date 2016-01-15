@@ -23,6 +23,8 @@ public class Robot extends IterativeRobot {
     RobotDrive drivetrain;
 	Joystick leftStick;
 	Joystick rightStick;
+	
+	
     
     /**
      * This function is run when the robot is first started up and should be
@@ -73,23 +75,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	double driveValue;
-    	
-    	if(Math.abs(leftStick.getY()) < 0.1) {
-    		driveValue = 0;
-    	} else if (leftStick.getY() > 0.1) {
-    		driveValue = 10 / 9 * (leftStick.getY() - 0.1);
-    	} else {
-    		driveValue = 10 / 9 * (leftStick.getY() + 0.1);
-    	}
-    	double turnValue;
-    	if(Math.abs(rightStick.getX()) < 0.1) {
-    		turnValue = 0;
-    	} else if (rightStick.getX() > 0.1) {
-    		turnValue = 10 / 9 * (rightStick.getX() - 0.1);
-    	} else {
-    		turnValue = 10 / 9 * (rightStick.getX() + 0.1);
-    	}
+    	double driveValue = deadbandInput(leftStick.getY(), .1);
+    	double turnValue = deadbandInput(rightStick.getX(), .1);
     	
     	
     	while(isOperatorControl() && isEnabled()){
@@ -104,4 +91,16 @@ public class Robot extends IterativeRobot {
     
     }
     
+    public double deadbandInput(double input, double deadbandValue) {
+    	double output;
+    	
+    	if(Math.abs(input) < deadbandValue){
+    		output = 0;
+    	} else {
+    		double sign = Math.abs(input)/input;
+    		output =  (1/(1-deadbandValue)) - (sign * deadbandValue);
+    	}
+    	
+    	return output;
+    }
 }
