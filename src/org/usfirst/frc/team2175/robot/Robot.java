@@ -24,6 +24,9 @@ public class Robot extends IterativeRobot {
     Joystick leftStick;
     Joystick rightStick;
 
+    double moveScale = .6;
+    double turnScale = .6;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -80,12 +83,14 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void teleopPeriodic() {
+
         double driveValue = deadbandInput(leftStick.getY(), .1);
         double turnValue = deadbandInput(rightStick.getX(), .1);
 
         while (isOperatorControl() && isEnabled()) {
             drivetrain.arcadeDrive(driveValue, turnValue);
         }
+
     }
 
     /**
