@@ -23,6 +23,7 @@ public class Robot extends IterativeRobot {
     RobotDrive drivetrain;
     Joystick leftStick;
     Joystick rightStick;
+    DeadbandCalculator deadbandCalculator = new DeadbandCalculator();
 
     double moveValue;
     double turnValue;
@@ -93,11 +94,10 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
 
         while (isOperatorControl() && isEnabled()) {
-            moveValue = deadbandInput(leftStick.getY(), deadbandValue) * speedScale;
-            turnValue = deadbandInput(rightStick.getX(), deadbandValue) * speedScale;
+            moveValue = deadbandCalculator.calcDeadbandedOutput(leftStick.getY(), deadbandValue) * speedScale;
+            turnValue = deadbandCalculator.calcDeadbandedOutput(rightStick.getX(), deadbandValue) * speedScale;
 
             drivetrain.arcadeDrive(moveValue, turnValue);
-
         }
     }
 
@@ -109,20 +109,4 @@ public class Robot extends IterativeRobot {
 
     }
 
-    public double deadbandInput(double input, double deadbandSize) {
-        double output;
-
-        if (isAboveThreshold(input, deadbandSize)) {
-            double sign = Math.abs(input) / input;
-            output = input * (1 / (1 - deadbandValue)) - (sign * deadbandValue);
-        } else {
-            output = 0;
-        }
-
-        return output;
-    }
-
-    public boolean isAboveThreshold(double input, double threshold) {
-        return Math.abs(input) >= threshold;
-    }
 }
