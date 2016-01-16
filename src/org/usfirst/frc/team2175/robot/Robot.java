@@ -29,6 +29,8 @@ public class Robot extends IterativeRobot {
 
     double speedScale;
 
+    double deadbandValue;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -45,6 +47,7 @@ public class Robot extends IterativeRobot {
         rightStick = new Joystick(1);
 
         speedScale = 1;
+        deadbandValue = .1;
 
     }
 
@@ -90,8 +93,8 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
 
         while (isOperatorControl() && isEnabled()) {
-            moveValue = deadbandInput(leftStick.getY(), .1) * speedScale;
-            turnValue = deadbandInput(rightStick.getX(), .1) * speedScale;
+            moveValue = deadbandInput(leftStick.getY(), deadbandValue) * speedScale;
+            turnValue = deadbandInput(rightStick.getX(), deadbandValue) * speedScale;
 
             drivetrain.arcadeDrive(moveValue, turnValue);
 
@@ -106,16 +109,20 @@ public class Robot extends IterativeRobot {
 
     }
 
-    public double deadbandInput(double input, double deadbandValue) {
+    public double deadbandInput(double input, double deadbandSize) {
         double output;
 
-        if (Math.abs(input) < deadbandValue) {
-            output = 0;
-        } else {
+        if (isAboveThreshold(input, deadbandSize)) {
             double sign = Math.abs(input) / input;
-            output = (1 / (1 - deadbandValue)) - (sign * deadbandValue);
+            output = input * (1 / (1 - deadbandValue)) - (sign * deadbandValue);
+        } else {
+            output = 0;
         }
 
         return output;
+    }
+
+    public boolean isAboveThreshold(double input, double threshold) {
+        return Math.abs(input) >= threshold;
     }
 }
