@@ -93,6 +93,7 @@ public class Robot extends IterativeRobot {
             turnValue = rightStick.getX() * speedScale;
 
             drivetrain.arcadeDrive(moveValue, turnValue);
+
         }
     }
 
