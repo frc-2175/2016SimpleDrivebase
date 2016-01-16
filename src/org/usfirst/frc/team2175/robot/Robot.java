@@ -87,10 +87,11 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void teleopPeriodic() {
-        moveValue = leftStick.getY() * speedScale;
-        turnValue = rightStick.getX() * speedScale;
 
         while (isOperatorControl() && isEnabled()) {
+            moveValue = leftStick.getY() * speedScale;
+            turnValue = rightStick.getX() * speedScale;
+
             drivetrain.arcadeDrive(moveValue, turnValue);
         }
     }
