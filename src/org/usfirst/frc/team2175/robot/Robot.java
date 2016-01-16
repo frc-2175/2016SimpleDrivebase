@@ -40,11 +40,12 @@ public class Robot extends IterativeRobot {
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
 
-        drivetrain = new RobotDrive(2, 3);
+        drivetrain = new RobotDrive(0, 1);
         leftStick = new Joystick(0);
         rightStick = new Joystick(1);
 
         speedScale = 1;
+
     }
 
     /**
