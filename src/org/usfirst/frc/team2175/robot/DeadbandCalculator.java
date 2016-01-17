@@ -17,9 +17,27 @@ public class DeadbandCalculator {
         return output;
     }
 
+    /**
+     * Determine whether some value is above a given threshold
+     * 
+     * @param input
+     *            Value to use
+     * @param threshold
+     *            Threshold to compare against
+     * @return boolean representing the truthiness of the comparison
+     */
+
     public boolean isAboveThreshold(double input, double threshold) {
         return Math.abs(input) >= threshold;
     }
+
+    /**
+     * Calculates the sign (i.e. positive or negative) of a given value
+     * 
+     * @param value
+     *            value to determine sign of
+     * @return sign of the value in the form of a 1 or -1
+     */
 
     public double calcSignOfValue(double value) {
         return (Math.abs(value) / value);
