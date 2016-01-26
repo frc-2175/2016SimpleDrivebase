@@ -1,9 +1,11 @@
 
 package org.usfirst.frc.team2175.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,8 +23,12 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
 
     RobotDrive drivetrain;
+
+    DoubleSolenoid catapultSolenoid;
+
     Joystick leftStick;
     Joystick rightStick;
+    JoystickButton shootButton;
     DeadbandCalculator deadbandCalculator = new DeadbandCalculator();
 
     double moveValue;
@@ -44,8 +50,12 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto choices", chooser);
 
         drivetrain = new RobotDrive(0, 1);
+
+        catapultSolenoid = new DoubleSolenoid(0, 1);
+
         leftStick = new Joystick(0);
         rightStick = new Joystick(1);
+        shootButton = new JoystickButton(leftStick, 1);
 
         speedScale = 1;
         deadbandValue = .1;
@@ -98,6 +108,10 @@ public class Robot extends IterativeRobot {
             turnValue = deadbandCalculator.calcDeadbandedOutput(rightStick.getX(), deadbandValue) * speedScale;
 
             drivetrain.arcadeDrive(moveValue, turnValue);
+
+            if (shootButton.get()) {
+                catapultSolenoid.set(DoubleSolenoid.Value.kForward);
+            }
         }
     }
 
