@@ -111,6 +111,8 @@ public class Robot extends IterativeRobot {
 
             if (shootButton.get()) {
                 catapultSolenoid.set(DoubleSolenoid.Value.kForward);
+            } else {
+                catapultSolenoid.set(DoubleSolenoid.Value.kReverse);
             }
         }
     }
