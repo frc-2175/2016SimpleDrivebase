@@ -24,7 +24,8 @@ public class Robot extends IterativeRobot {
 
     RobotDrive drivetrain;
 
-    DoubleSolenoid catapultSolenoid;
+    DoubleSolenoid leftCatapultSolenoid;
+    DoubleSolenoid rightCatapultSolenoid;
 
     Joystick leftStick;
     Joystick rightStick;
@@ -51,7 +52,8 @@ public class Robot extends IterativeRobot {
 
         drivetrain = new RobotDrive(0, 1);
 
-        catapultSolenoid = new DoubleSolenoid(0, 1);
+        leftCatapultSolenoid = new DoubleSolenoid(0, 1);
+        rightCatapultSolenoid = new DoubleSolenoid(2, 3);
 
         leftStick = new Joystick(0);
         rightStick = new Joystick(1);
@@ -110,9 +112,11 @@ public class Robot extends IterativeRobot {
             drivetrain.arcadeDrive(moveValue, turnValue);
 
             if (shootButton.get()) {
-                catapultSolenoid.set(DoubleSolenoid.Value.kForward);
+                leftCatapultSolenoid.set(DoubleSolenoid.Value.kForward);
+                rightCatapultSolenoid.set(DoubleSolenoid.Value.kForward);
             } else {
-                catapultSolenoid.set(DoubleSolenoid.Value.kReverse);
+                leftCatapultSolenoid.set(DoubleSolenoid.Value.kReverse);
+                rightCatapultSolenoid.set(DoubleSolenoid.Value.kReverse);
             }
         }
     }
